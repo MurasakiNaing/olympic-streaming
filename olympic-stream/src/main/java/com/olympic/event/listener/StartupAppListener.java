@@ -5,13 +5,18 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.olympic.model.entity.Admin;
 import com.olympic.model.entity.User;
+import com.olympic.model.repo.AdminRepo;
 import com.olympic.model.repo.UserRepo;
 
 public class StartupAppListener {
 
 	@Autowired
 	private UserRepo repo;
+	
+	@Autowired
+	private AdminRepo adminRepo;
 	
 	@Autowired
 	private PasswordEncoder encoder;
@@ -23,6 +28,12 @@ public class StartupAppListener {
 		user.setPassword(encoder.encode("aungaung"));
 		user.setActivated(true);
 		user.setRole("USER");
+		user.setImageName("default_pfp.png");
 		repo.save(user);
+		
+		var admin = new Admin();
+		admin.setName("admin");
+		admin.setPassword("admin");
+		adminRepo.save(admin);
 	}
 }

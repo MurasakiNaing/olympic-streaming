@@ -6,7 +6,7 @@ import jakarta.servlet.MultipartConfigElement;
 import jakarta.servlet.ServletRegistration.Dynamic;
 
 public class Initializer extends AbstractAnnotationConfigDispatcherServletInitializer {
-	
+
 	@Override
 	protected Class<?>[] getRootConfigClasses() {
 		return new Class<?>[] {};
@@ -14,12 +14,12 @@ public class Initializer extends AbstractAnnotationConfigDispatcherServletInitia
 
 	@Override
 	protected Class<?>[] getServletConfigClasses() {
-		return new Class<?>[] {WebConfig.class, DatabaseConfig.class, SecurityConfig.class};
+		return new Class<?>[] { WebConfig.class, DatabaseConfig.class, SecurityConfig.class};
 	}
 
 	@Override
 	protected String[] getServletMappings() {
-		return new String[] {"/"};
+		return new String[] { "/" };
 	}
 
 	@Override

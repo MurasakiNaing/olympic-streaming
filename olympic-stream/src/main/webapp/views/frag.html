@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" th:fragment="nav(user, title, content)">
+<head>
+<meta charset="UTF-8">
+<title th:value="${title}">Insert title here</title>
+<link th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<script th:src="@{/resources/js/bootstrap.min.js}"></script>
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	
+		<button class="navbar-toggler" type="button"
+				data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+				aria-controls="offcanvasNavbar" aria-label="Toggle navigation"
+				style="margin-left: 12px">
+				<span class="navbar-toggler-icon"></span>
+		</button>
+		<a class="navbar-brand d-none d-lg-block d-xl-block d-xxl-block" th:href="@{/}" 
+				style="padding-left: 12px; padding-right: 12px">Navbar</a>
+		<form th:action="@{/}">
+			<div class="input-group d-lg-none w-auto ms-auto me-auto">
+					<input type="text" class="form-control" name="search"
+						placeholder="Search Channel / Sport" aria-label="Search Channel / Sport">
+					<button class="btn btn-outline-secondary" type="submit">
+						<i class="bi bi-search"></i>
+					</button>
+				</div>
+		</form>
+		<img th:src="|/resources/images/${session.user?.imageName}|" sec:authorize="hasRole('USER')"
+			 class="rounded-circle mt-1 d-lg-none d-xl-none d-xxl-none me-1" height="40" alt="User Image" />
+			 
+		<a href="#" sec:authorize="hasRole('ADMIN')">ADMIN</a>
+		
+		<div class="offcanvas offcanvas-start w-75 bg-dark" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel"> 
+			<div class="offcanvas-header">
+				<h5 class="offcanvas-title text-white" id="offcanvasNavbarLabel">Navbar</h5>
+				<button type="button" class="btn-close bg-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+			</div>
+			
+			<div class="offcanvas-body ms-lg-auto">
+				<ul class="navbar-nav me-2 mt-1">
+					<li class="nav-item mt-1 mx-lg-2">
+						<a th:href="@{/home}" class="nav-link " th:classappend="${title} == 'Home' ? 'active' : _">
+							<i class="bi bi-house"></i> Home
+						</a>
+					</li>
+					
+					<li class="nav-item mt-1 mx-lg-2">
+						<a href="#" class="nav-link " th:classappend="${title} == 'Sports' ? 'active' : _">
+							<i class="bi bi-card-list"></i> Sports
+						</a>
+					</li>
+					
+					<li class="nav-item mt-1 mx-lg-2">
+						<a th:href="@{/logout}" class="nav-link ">
+							<i class="bi bi-box-arrow-right"></i> Logout
+						</a>
+					</li>
+					
+					<li class="nav-item d-lg-none d-xl-none d-xxl-none fixed-bottom w-75 ps-3">
+						<div class="row me-0 align-middle my-2">
+							<div class="col-1 pe-5">
+								<img th:src="|/resources/images/${session.user?.imageName}|" sec:authorize="hasRole('USER')"
+		 							class="rounded-circle mt-1 d-lg-none d-xl-none d-xxl-none me-1" height="40" alt="User Image" />
+							</div>
+							<div class="col ps-1 my-auto">
+								<p class="my-0 text-white" th:text="${session.user?.email}"></p>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		
+	</nav>
+	
+	<div sec:authorize="hasRole('ROLE_ADMIN')">
+	  This content is only shown to administrators.
+	</div>
+	
+	<main th:replace="${content}"></main>
+
+</body>
+</html>

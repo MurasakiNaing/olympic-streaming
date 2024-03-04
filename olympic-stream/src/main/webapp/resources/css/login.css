@@ -1,0 +1,23 @@
+@charset "UTF-8";
+
+#adminTag, #userTag, .register {
+  cursor: pointer;
+  text-decoration: none;
+  position: relative;
+  display: inline-block;
+}
+
+#adminTag::after, #userTag::after, .register::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  background: blue;
+  bottom: 0px;
+  left: 0px;
+  transition: width 0.5s ease;
+}
+
+#adminTag:hover::after, #userTag:hover::after, .register:hover::after {
+  width: 100%;
+}
