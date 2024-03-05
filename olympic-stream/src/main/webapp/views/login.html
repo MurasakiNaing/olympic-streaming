@@ -5,6 +5,7 @@
 <title>User Login</title>
 <link th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet">
 <link th:href="@{/resources/css/login.css}" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 <script th:src="@{/resources/js/bootstrap.min.js}"></script>
 <script th:src="@{/resources/js/login.js}" defer="defer"></script>
 </head>
@@ -28,25 +29,29 @@
 				<form th:action="@{/auth/authenticate}" method="post" class="w-100 needs-validation" id="userLogin" novalidate>
 					<div class="mb-3 form-group">
 						<label for="username" class="form-label">Email</label>
-						<input type="email" name="username" class="form-control rounded-0" required />
-						<div class="invalid-feedback">
-			      			Please enter valid email!
-			      		</div>
+						<div class="input-group has-validation">
+							<span class="input-group-text"><i class="bi bi-envelope"></i></span>
+							<input type="email" name="username" class="form-control rounded-0" required />
+							<p class="invalid-feedback mb-0">Please enter valid email!</p>
+						</div>
 					</div>
 					
-					<div class="mb-3">
+					<div class="mb-3 form-group">
 						<label for="password" class="form-label">Password</label>
-						<input type="password" name="password" required="required" class="form-control rounded-0" />
-						<p class="invalid-feedback">Please Enter Password.</p>
+						<div class="input-group has-validation">
+							<span class="input-group-text"><i class="bi bi-lock"></i></span>
+							<input type="password" name="password" required="required" class="form-control rounded-0" />
+							<p class="invalid-feedback mb-0">Please Enter Password.</p>
+						</div>
 					</div>
 					
 					<div class="mb-3">
 						<button type="submit" class="btn btn-outline-primary w-100 rounded-0">Login</button>
 					</div>
 				</form>
-				<a th:href="@{/auth/register}" class="nav-link text-primary register">Register.</a>
+				<a th:href="@{/auth/register}" class="nav-link text-primary register"><i class="bi bi-person-plus"></i> Register.</a>
 				<br />
-				<p class="text-primary" id="adminTag">Admin Login</p>
+				<p class="text-primary" id="adminTag"><i class="bi bi-person-gear"></i> Admin Login</p>
 			</div>
 			
 			<div class="d-none" id="adminLogin">
@@ -56,17 +61,23 @@
 					<h5 class="text-secondary">Continue to FunOlympic.</h5>
 				</div>
 			
-				<form th:action="@{/auth/authenticate}" method="post" class="w-100" novalidate>
-					<div class="mb-3">
+				<form th:action="@{/auth/authenticate}" method="post" class="w-100 needs-validation" novalidate>
+					<div class="mb-3 form-group">
 						<label for="username" class="form-label">Username</label>
-						<input type="text" name="username" placeholder="Enter Admin Username" required="required" pattern="^(?:(?!\.com$).)*$" class="form-control rounded-0" />
-						<p class="invalid-feedback">Please Enter Valid Username and it should not end with .com</p>
+						<div class="input-group has-validation">
+							<span class="input-group-text"><i class="bi bi-person"></i></span>
+							<input type="text" name="username" placeholder="Enter Admin Username" required="required" pattern="^(?:(?!\.com$).)*$" class="form-control rounded-0" />
+							<p class="invalid-feedback mb-0">Please Enter Valid Username and it should not end with .com</p>
+						</div>
 					</div>
 					
-					<div class="mb-3">
+					<div class="mb-3 form-group">
 						<label for="password" class="form-label">Password</label>
-						<input type="password" name="password" placeholder="Enter Password" required="required" class="form-control rounded-0" />
-						<p class="invalid-feedback">Please Enter Password.</p>
+						<div class="input-group has-validation">
+							<span class="input-group-text"><i class="bi bi-lock"></i></span>
+							<input type="password" name="password" placeholder="Enter Password" required="required" class="form-control rounded-0" />
+							<p class="invalid-feedback mb-0">Please Enter Password.</p>
+						</div>
 					</div>
 					
 					<div class="mb-3">

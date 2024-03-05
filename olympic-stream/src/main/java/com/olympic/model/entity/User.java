@@ -10,17 +10,20 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
 @Table(name = "users")
 public class User implements UserDetails, Serializable {
 
@@ -30,12 +33,31 @@ public class User implements UserDetails, Serializable {
 	@UuidGenerator
 	private String id;
 	
+	@ManyToOne
+	private Country country;
+	
+	@ManyToMany
+	@JoinTable(
+			name = "preferred_sport",
+			joinColumns = @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "sport_id")
+			)
+	private List<Sport> preferredSports;
+	
 	private String email;
 	private String password;
 	private boolean activated;
 	private String role;
 	private String imageName;
+	private String name;
+	private String phone;
+	@Column(name = "is_first_login")
+	private boolean isfirstLogin;
 
+	public User() {
+		this.role = "USER";
+	}
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authList = new ArrayList<>();

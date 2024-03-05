@@ -21,3 +21,7 @@
 #adminTag:hover::after, #userTag:hover::after, .register:hover::after {
   width: 100%;
 }
+
+.input-group-text {
+	border-radius: 0px !important;
+}

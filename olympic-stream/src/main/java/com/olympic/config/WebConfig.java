@@ -1,8 +1,12 @@
 package com.olympic.config;
 
+import java.util.Properties;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
@@ -12,11 +16,9 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 
-import com.olympic.event.listener.StartupAppListener;
-
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = {"com.olympic.controller"})
+@ComponentScan(basePackages = {"com.olympic.controller", "com.olympic.event"})
 public class WebConfig implements WebMvcConfigurer {
 	
 	@Override
@@ -54,8 +56,20 @@ public class WebConfig implements WebMvcConfigurer {
 	}
 	
 	@Bean
-	public StartupAppListener listener() {
-		return new StartupAppListener();
+	public JavaMailSender javaMailSender() {
+		JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+		mailSender.setHost("smtp.gmail.com");
+		mailSender.setPort(587);
+		
+		mailSender.setUsername("funolympicpayris@gmail.com");
+		mailSender.setPassword("xykh ylgx mqvc djbk");
+		
+		Properties props = mailSender.getJavaMailProperties();
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.transport.protocol", "smtp");
+	    props.put("mail.smtp.starttls.enable", "true");
+		
+	    return mailSender;
 	}
 	
 }

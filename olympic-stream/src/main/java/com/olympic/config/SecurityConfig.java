@@ -93,7 +93,8 @@ public class SecurityConfig {
 		});
 		
 		http.formLogin(form -> {
-			form.loginPage("/auth/authenticate");
+			form.loginPage("/auth/login");
+			form.loginProcessingUrl("/auth/authenticate");
 			form.successHandler(successHandler());
 		});
 		
