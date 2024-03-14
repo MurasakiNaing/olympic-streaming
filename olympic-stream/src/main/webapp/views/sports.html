@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Sports</title>
+<link th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link th:href="@{/resources/css/icons.css}" rel="stylesheet">
+<link th:href="@{/resources/css/sports.css}" rel="stylesheet">
+<script th:src="@{/resources/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body>
+	
+	<nav  th:replace="~{frag :: nav(title = 'Sports')}"></nav>
+	
+	<main>		
+		<div class="container mb-3">
+			<h1>Sports</h1>
+			
+			<div class="row row-cols-lg-3 row-cols-md-2 row-cols-1">
+				<div th:if="${#maps.containsKey(groupedSports, '#')}" class="mb-3">
+				    <h2>#</h2>
+				    <a class="col pt-2 sport-item text-black text-decoration-none" th:href="@{/}" th:each="sport : ${groupedSports.get('#')}">
+						<img class="sport-image" th:src="${sport.getImagePath()}" alt="${sport.getName()}" />
+						<span class="sport-name p-1">
+							<span th:text="${sport.getName()}"></span>
+							<i class="bi bi-arrow-right me-1"></i>
+						</span>	
+					</a>
+				</div>
+				
+				<div th:each="entry : ${groupedSports}" th:if="${!#strings.equals(entry.key, '#')}" class="mb-3">
+						<h2 th:text="${entry.key}"></h2>
+						<div class="col pt-2 sport-item" th:each="sport : ${entry.value}">
+							<a th:href="|sports/${sport.getId()}|" class="text-decoration-none text-black">
+								<img class="sport-image" th:src="${sport.getImagePath()}" alt="${sport.getName()}" />
+								<span class="sport-name p-1">
+									<span th:text="${sport.getName()}"></span>
+								 	<i class="bi bi-arrow-right me-1"></i>
+								 </span>	
+							</a>
+						</div>
+				</div>
+				
+			</div>
+		</div>
+	</main>
+
+</body>
+</html>

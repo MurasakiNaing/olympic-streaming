@@ -11,3 +11,7 @@
 .bi-envelope-x::before {
 	color: red;
 }
+
+.sport-icon {
+	filter: invert(100%);
+}

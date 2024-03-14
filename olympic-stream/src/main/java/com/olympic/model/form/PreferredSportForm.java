@@ -1,4 +1,4 @@
-package com.olympic.model.dto;
+package com.olympic.model.form;
 
 import java.util.List;
 

@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.olympic.event.RegisterEvent;
 import com.olympic.exception.UserAlreadyExistException;
 import com.olympic.exception.VerificationException;
-import com.olympic.model.dto.RegisterForm;
+import com.olympic.model.entity.User;
+import com.olympic.model.form.PreferredSportForm;
+import com.olympic.model.form.RegisterForm;
 import com.olympic.model.service.CountryService;
+import com.olympic.model.service.SportService;
 import com.olympic.model.service.UserService;
 import com.olympic.model.service.VerificationService;
 
@@ -33,6 +36,9 @@ public class SecurityController {
 	
 	@Autowired
 	private CountryService countryService;
+	
+	@Autowired
+	private SportService sportService;
 
 	@GetMapping("/login")
 	String login() {
@@ -48,17 +54,38 @@ public class SecurityController {
 
 	@PostMapping("/register")
 	String registerUser(@ModelAttribute("registerForm") RegisterForm form) {
+		User user = null;
 		try {
-			userService.register(form);
-			var user = userService.findByEmail(form.getEmail()).get();
-			eventPublisher.publishEvent(new RegisterEvent(user));
+			user = userService.register(form);
+			// user = userService.findByEmail(form.getEmail()).get();
+			//eventPublisher.publishEvent(new RegisterEvent(user));
 		} catch (UserAlreadyExistException e) {
 			return "redirect:/auth/register?error=true";
 		}
 
-		return "verification";
+		return "redirect:/auth/" + user.getId() + "/preferred-sports";
 	}
 
+	@GetMapping("/{id}/preferred-sports")
+	String preferredSport(@PathVariable String id, ModelMap map) {
+		
+		map.put("sportsList", sportService.findAll());
+		map.put("sportsForm", new PreferredSportForm());
+		map.put("id", id);
+		
+		return "preferred-sports";
+	}
+	
+	@PostMapping("/{id}/preferred-sports")
+	String addPreferredSports( @ModelAttribute PreferredSportForm form , @PathVariable String id) {
+		
+		userService.addPreferredSports(form, id);
+		var user = userService.findById(id).get();
+		eventPublisher.publishEvent(new RegisterEvent(user));
+		
+		return "verification";
+	}
+	
 	@GetMapping("/verification/{code}")
 	String activate(@PathVariable String code) {
 		
