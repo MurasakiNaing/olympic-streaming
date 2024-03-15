@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.olympic.model.dto.SportDto;
+import com.olympic.model.service.ChannelService;
 import com.olympic.model.service.SportService;
 import com.olympic.model.service.UserService;
 
@@ -27,14 +28,18 @@ public class UserController {
 	@Autowired
 	private SportService sportService;
 	
+	@Autowired
+	private ChannelService channelService;
+	
 	@GetMapping({"/user", "/admin", "/home"})
-	String home(Authentication auth, HttpSession session) {
+	String home(Authentication auth, HttpSession session, ModelMap map) {
 		var isUser = auth.getAuthorities().stream().anyMatch(ga -> ga.getAuthority().equals("ROLE_USER"));
 		var noSession = session.getAttribute("user") == null;
 		if(isUser && noSession) {
 			var user = userService.findUserByEmail(auth.getName()).get();
 			session.setAttribute("user", user);			
 		}
+		map.put("video", "soccer");
 		return "home";
 	}
 	
@@ -51,6 +56,7 @@ public class UserController {
 		
 		if(sport.isPresent()) {
 			map.put("sport", sport.get());
+			map.put("channels", channelService.getChannelBySport(id));
 			return "sport";
 		}
 		

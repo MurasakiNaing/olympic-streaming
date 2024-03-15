@@ -25,6 +25,6 @@ public class Initializer extends AbstractAnnotationConfigDispatcherServletInitia
 	@Override
 	protected void customizeRegistration(Dynamic registration) {
 		registration.setLoadOnStartup(1);
-		registration.setMultipartConfig(new MultipartConfigElement(""));
+		registration.setMultipartConfig(new MultipartConfigElement("", -1, -1, -1));
 	}
 }

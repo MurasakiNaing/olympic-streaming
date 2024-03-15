@@ -30,5 +30,5 @@ public class Sport {
 	private String description;
 	
 	@OneToMany(mappedBy = "sport")
-	private List<Sport> sports;
+	private List<Channel> channels;
 }

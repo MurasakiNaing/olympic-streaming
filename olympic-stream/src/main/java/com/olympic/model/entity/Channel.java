@@ -21,9 +21,10 @@ public class Channel {
 	
 	private String name;
 	
-	private String videoName;
-	
 	@ManyToOne
 	private Sport sport;
 	
+	private String description;
+	
+	private String videoName;
 }

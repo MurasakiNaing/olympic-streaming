@@ -20,7 +20,7 @@
 			<div class="row row-cols-lg-3 row-cols-md-2 row-cols-1">
 				<div th:if="${#maps.containsKey(groupedSports, '#')}" class="mb-3">
 				    <h2>#</h2>
-				    <a class="col pt-2 sport-item text-black text-decoration-none" th:href="@{/}" th:each="sport : ${groupedSports.get('#')}">
+				    <a class="col pt-2 sport-item text-black text-decoration-none" th:href="|/sports/${sport.getId()}|" th:each="sport : ${groupedSports.get('#')}">
 						<img class="sport-image" th:src="${sport.getImagePath()}" alt="${sport.getName()}" />
 						<span class="sport-name p-1">
 							<span th:text="${sport.getName()}"></span>
@@ -32,7 +32,7 @@
 				<div th:each="entry : ${groupedSports}" th:if="${!#strings.equals(entry.key, '#')}" class="mb-3">
 						<h2 th:text="${entry.key}"></h2>
 						<div class="col pt-2 sport-item" th:each="sport : ${entry.value}">
-							<a th:href="|sports/${sport.getId()}|" class="text-decoration-none text-black">
+							<a th:href="|/sports/${sport.getId()}|" class="text-decoration-none text-black">
 								<img class="sport-image" th:src="${sport.getImagePath()}" alt="${sport.getName()}" />
 								<span class="sport-name p-1">
 									<span th:text="${sport.getName()}"></span>

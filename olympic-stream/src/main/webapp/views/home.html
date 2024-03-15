@@ -11,7 +11,12 @@
 	<nav  th:replace="~{frag :: nav(title = 'Home')}"></nav>
 	<main>
 		<div class="container">
-			<h1>Hello From UserHome</h1>
+			<h1>Hello From Home</h1>
+			
+			<video width="400" preload="auto" controls>
+				<source th:src="|http://localhost:8080/videos/${video}|"  type="video/mp4">
+			</video>
+			
 			<a th:href="@{/logout}">Log Out</a>
 		</div>
 	</main>
