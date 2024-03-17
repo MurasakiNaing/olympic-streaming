@@ -14,8 +14,4 @@ public interface ChannelDto {
 	
 	String getVideoName();
 	
-	default String getVideoPath() {
-		return "/resources/videos/" + getVideoName() + ".mp4";
-	}
-	
 }

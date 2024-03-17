@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<script th:src="@{/resources/js/bootstrap.bundle.min.js}"></script>
+<style>
+
+.comments-con {
+    height: 400px;
+    overflow-y: auto;
+}
+
+.form-control:focus {
+    border: 1px solid black;
+    box-shadow: none;
+    outline: none;
+}
+
+</style>
+</head>
+<body>
+
+	<div class="container-fluid">
+
+        <h2>Comments</h2>
+        <div class="comments-con">
+        
+        	<div class="row me-0 my-2" th:each="comment : ${comments}">
+                <div class="col-1 pe-5">
+                    <img th:src="${comment.getUser().getImagePath()}" class="rounded-circle" height="40" alt="User Image" />
+                </div>
+                <div class="col ps-1 my-auto">
+                    <p class="my-0" th:text="${comment.getUser().getName()}"></p>
+                    <p class="my-0" th:text="${comment.getText()}"></p>
+                </div>
+            </div>
+            
+            <div class="me-0 my-2 fixed-bottom">
+                <form th:action="|/channel/${channelId}/comments|" class="needs-validation" th:object="${form}" method="post" novalidate>
+                    <div class="row">
+                        <div class="col-10">
+                            <input type="text" class="form-control" placeholder="Comment" pattern="[^\s]+" th:field="*{text}" required>
+                        </div>
+                        <div class="col-2 ps-0">
+                            <button class="btn btn-primary" type="submit"><i class="bi bi-send"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+        </div>
+	</div>
+
+	<script type="text/javascript">
+	
+            (() => {
+                  'use strict'
+        
+                  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+                  const forms = document.querySelectorAll('.needs-validation')
+        
+                  // Loop over them and prevent submission
+                  Array.from(forms).forEach(form => {
+                    form.addEventListener('submit', event => {
+                      if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                      }
+        
+                      form.classList.add('was-validated')
+                    }, false)
+                  })
+                })()
+            
+        </script>
+
+</body>
+</html>

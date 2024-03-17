@@ -10,12 +10,12 @@
 <body>
 	<nav  th:replace="~{frag :: nav(title = 'Home')}"></nav>
 	<main>
-		<div class="container">
+		<div class="container mb-3">
 			<h1>Hello From Home</h1>
-			
-			<video width="400" preload="auto" controls>
-				<source th:src="|http://localhost:8080/videos/${video}|"  type="video/mp4">
-			</video>
+			<div class="ratio ratio-16x9">
+				<iframe th:src="|http://localhost:8080/videos/${video}|"></iframe>
+			</div>
+
 			
 			<a th:href="@{/logout}">Log Out</a>
 		</div>

@@ -104,6 +104,8 @@ public class SecurityConfig {
 		
 		http.authenticationManager(authManager);
 		
+		http.headers(header -> header.frameOptions(option -> option.disable()));
+		
 		http.csrf(AbstractHttpConfigurer::disable);
 		
 		return http.build();

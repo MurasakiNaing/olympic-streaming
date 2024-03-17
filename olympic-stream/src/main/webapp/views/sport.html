@@ -39,7 +39,7 @@
 						</thead>
 						<tbody>
 							<tr th:each="channel : ${channels}">
-								<td><a th:href="">[[${channel.getName()}]]</a></td>
+								<td><a th:href="|/channel/${channel.getId()}|">[[${channel.getName()}]]</a></td>
 								<td th:text="${channel.getDescription()}"></td>
 							</tr>
 							

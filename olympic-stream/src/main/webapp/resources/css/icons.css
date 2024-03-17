@@ -8,7 +8,7 @@
 	color: green;
 }
 
-.bi-envelope-x::before {
+.bi-envelope-x::before, bi-x-circle-fill::before {
 	color: red;
 }
 

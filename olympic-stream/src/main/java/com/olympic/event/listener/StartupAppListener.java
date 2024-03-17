@@ -28,6 +28,7 @@ public class StartupAppListener {
 		var user = new User();
 		user.setEmail("aungaung@gmail.com");
 		user.setPassword(encoder.encode("aungaung"));
+		user.setName("aungaung");
 		user.setActivated(true);
 		user.setRole("USER");
 		user.setImageName("default_pfp.png");

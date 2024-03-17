@@ -20,13 +20,15 @@
 			<div class="row row-cols-lg-3 row-cols-md-2 row-cols-1">
 				<div th:if="${#maps.containsKey(groupedSports, '#')}" class="mb-3">
 				    <h2>#</h2>
-				    <a class="col pt-2 sport-item text-black text-decoration-none" th:href="|/sports/${sport.getId()}|" th:each="sport : ${groupedSports.get('#')}">
-						<img class="sport-image" th:src="${sport.getImagePath()}" alt="${sport.getName()}" />
-						<span class="sport-name p-1">
-							<span th:text="${sport.getName()}"></span>
-							<i class="bi bi-arrow-right me-1"></i>
-						</span>	
-					</a>
+				    <div class="col pt-2 sport-item"  th:each="sport : ${groupedSports.get('#')}">
+					    <a class=" text-black text-decoration-none" th:href="|/sports/${sport.getId()}|">
+							<img class="sport-image" th:src="${sport.getImagePath()}" alt="${sport.getName()}" />
+							<span class="sport-name p-1">
+								<span th:text="${sport.getName()}"></span>
+								<i class="bi bi-arrow-right me-1"></i>
+							</span>	
+						</a>
+				    </div>
 				</div>
 				
 				<div th:each="entry : ${groupedSports}" th:if="${!#strings.equals(entry.key, '#')}" class="mb-3">
