@@ -1,6 +1,6 @@
 package com.olympic.model.dto;
 
-import com.olympic.model.entity.Sport;
+import java.util.List;
 
 public interface ChannelDto {
 
@@ -8,10 +8,11 @@ public interface ChannelDto {
 	
 	String getName();
 	
-	Sport getSport();
+	SportDto getSport();
 	
 	String getDescription();
 	
 	String getVideoName();
 	
+	List<ViewDto> getViews();
 }

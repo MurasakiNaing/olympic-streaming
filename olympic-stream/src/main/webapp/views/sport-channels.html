@@ -14,6 +14,7 @@
 	<main>
 		<div class="container mb-3">
 			<h2 th:text="${sport.getName()}"></h2>
+			<h3>Sport Views: [[${views}]]</h3>
 			
 			<table class="table table-responsive" >
 				<thead>
@@ -25,13 +26,15 @@
 				<tbody>
 					<tr>
 						<td colspan="2">
-							<a th:href="|/admin/sports/add-channel/${sport.getId()}|" class="btn btn-outline-primary py-1 w-100 rounded-0">Add New Channel</a>
+							<a th:href="|/admin/sports/add-channel/${sport.getId()}|" class="btn btn-outline-primary py-1 w-100 rounded-0">
+								<i class="bi bi-plus-circle"></i> Add New Channel
+							</a>
 						</td>
 					</tr>
 					
 					<tr th:each="channel : ${channels}">
-						<td th:text="channel.getName()"></td>
-						<td>0</td>
+						<td th:text="${channel.getName()}"></td>
+						<td th:text="${channel.getViews().size()}"></td>
 					</tr>
 				</tbody>
 			</table>

@@ -17,6 +17,7 @@
 				style="margin-left: 12px">
 				<span class="navbar-toggler-icon"></span>
 		</button>
+
 		<a class="navbar-brand d-none d-lg-block d-xl-block d-xxl-block" th:href="@{/}" 
 				style="padding-left: 12px; padding-right: 12px">FunOlympics</a>
 		<form th:action="@{/}">
@@ -29,7 +30,7 @@
 				</div>
 		</form>
 		
-		<div class="dropdown d-inline d-lg-none" sec:authorize="hasRole('USER')">
+		<div class="dropdown d-inline d-lg-none me-3" sec:authorize="hasRole('USER')">
                 <a class="dropdown-toggle active d-flex align-items-center"
                     style="color: #dee2e6;"
                     href="#" id="profileDropdownMenu" role="button"
@@ -42,7 +43,7 @@
                     class="dropdown-menu dropdown-menu-end me-1 dropdown-menu-dark"
                     aria-labelledby="profileDropdownMenu">
                     <li>
-                        <a class="dropdown-item" th:href="@{/}"><i class="bi bi-gear"></i> Settings</a>
+                        <a class="dropdown-item" th:href="|/user/${session.user?.getId()}|"><i class="bi bi-gear"></i> Settings</a>
                     </li>
                     <li>
                     	<a th:href="@{/logout}" class="dropdown-item ">
@@ -51,8 +52,6 @@
                     </li>
                 </ul>
             </div>
-		
-		<a href="#" sec:authorize="hasRole('ADMIN')" class="me-2">ADMIN</a>
 		
 		<div class="offcanvas offcanvas-start w-75 bg-dark" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel"> 
 			<div class="offcanvas-header">
@@ -75,18 +74,30 @@
 					</li>
 					
 					<li class="nav-item mt-1 mx-lg-2 d-lg-none" sec:authorize="hasRole('USER')" th:classappend="${title} == 'Account' ? 'active' : _">
-						<a th:href="@{/logout}" class="nav-link ">
+						<a th:href="@{/account}" class="nav-link ">
 							<i class="bi bi-gear"></i> Account
 						</a>
 					</li>
 					
-					<li class="nav-item mt-1 mx-lg-2 d-lg-none" sec:authorize="hasRole('ADMIN')" th:classappend="${title} == 'Users' ? 'active' : _">
-						<a th:href="@{/logout}" class="nav-link ">
+					<li class="nav-item mt-1 mx-lg-2" th:classappend="${title} == 'Channels' ? 'active' : _">
+						<a th:href="@{/channels}" class="nav-link ">
+							<i class="bi bi-tv"></i> Channels
+						</a>
+					</li>
+					
+					<li class="nav-item mt-1 mx-lg-2" sec:authorize="hasRole('ADMIN')" th:classappend="${title} == 'Users' ? 'active' : _">
+						<a th:href="@{/admin/users}" class="nav-link ">
 							<i class="bi bi-people"></i> Users
 						</a>
 					</li>
 					
-					<li class="nav-item mt-1 mx-lg-2 d-lg-none">
+					<li class="nav-item mt-1 mx-lg-2 d-lg-none" sec:authorize="hasRole('USER')">
+						<a th:href="@{/logout}" class="nav-link ">
+							<i class="bi bi-box-arrow-right"></i> Logout
+						</a>
+					</li>
+					
+					<li class="nav-item mt-1 ms-lg-2" sec:authorize="hasRole('ADMIN')">
 						<a th:href="@{/logout}" class="nav-link ">
 							<i class="bi bi-box-arrow-right"></i> Logout
 						</a>
@@ -105,7 +116,7 @@
 						</div>
 					</li>
 					
-					<li class="nav-item mt-1 mx-lg-2 d-none d-lg-inline d-xl-inline d-xxl-inline">
+					<li class="nav-item mx-lg-2 d-none d-lg-inline d-xl-inline d-xxl-inline">
 						<div class="dropdown" sec:authorize="hasRole('USER')">
 			                <a class="dropdown-toggle active d-flex align-items-center"
 			                    style="color: #dee2e6;"
@@ -119,7 +130,7 @@
 			                    class="dropdown-menu dropdown-menu-end me-1 dropdown-menu-dark"
 			                    aria-labelledby="profileDropdownMenu">
 			                    <li>
-			                        <a class="dropdown-item" th:href="@{/}"><i class="bi bi-gear"></i> Settings</a>
+			                        <a class="dropdown-item" th:href="|/user/${session.user?.getId()}|"><i class="bi bi-gear"></i> Settings</a>
 			                    </li>
 			                    <li>
 			                    	<a th:href="@{/logout}" class="dropdown-item ">
@@ -134,10 +145,6 @@
 		</div>
 		
 	</nav>
-	
-	<div sec:authorize="hasRole('ROLE_ADMIN')">
-	  This content is only shown to administrators.
-	</div>
 
 </body>
 </html>

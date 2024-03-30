@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.olympic.model.dto.ChannelDto;
 import com.olympic.model.entity.Channel;
+import com.olympic.model.entity.Sport;
 import com.olympic.model.form.ChannelForm;
 import com.olympic.model.repo.ChannelRepo;
 import com.olympic.model.repo.SportRepo;
@@ -51,6 +52,21 @@ public class ChannelServiceImpl implements ChannelService {
 	@Override
 	public Optional<ChannelDto> findChannelById(Integer id) {
 		return channelRepo.findChannelById(id);
+	}
+
+	@Override
+	public List<ChannelDto> getAllChannels() {
+		return channelRepo.getAllChannel();
+	}
+
+	@Override
+	public List<ChannelDto> getLatestChannels() {
+		return channelRepo.getTop3OrderByIdDesc();
+	}
+
+	@Override
+	public List<ChannelDto> getChannelsByPreferredSports(List<Sport> sports) {
+		return channelRepo.findChannelByPreferredSport(sports);
 	}
 
 }

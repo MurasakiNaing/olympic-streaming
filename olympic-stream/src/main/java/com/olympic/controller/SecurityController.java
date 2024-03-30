@@ -57,8 +57,6 @@ public class SecurityController {
 		User user = null;
 		try {
 			user = userService.register(form);
-			// user = userService.findByEmail(form.getEmail()).get();
-			//eventPublisher.publishEvent(new RegisterEvent(user));
 		} catch (UserAlreadyExistException e) {
 			return "redirect:/auth/register?error=true";
 		}

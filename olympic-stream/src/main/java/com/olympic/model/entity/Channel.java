@@ -3,6 +3,7 @@ package com.olympic.model.entity;
 import java.util.List;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,4 +34,7 @@ public class Channel {
 	
 	@OneToMany(mappedBy = "channel")
 	private List<Comment> comments;
+	
+	@OneToMany(mappedBy = "channel", fetch = FetchType.EAGER)
+	private List<View> views;
 }

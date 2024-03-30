@@ -32,7 +32,7 @@ public class StreamingServiceImpl implements StreamingService {
 	@Override
 	public String saveVideo(MultipartFile video, ServletContext context) throws IOException {
 		var directory = "/resources/videos/";
-		var filePath = context.getRealPath(directory+video.getOriginalFilename());
+		var filePath = context.getRealPath(directory + video.getOriginalFilename());
 		try {
 			Files.copy(video.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
 		} catch(Exception e) {
