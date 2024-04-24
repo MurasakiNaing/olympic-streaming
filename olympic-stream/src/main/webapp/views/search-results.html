@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>Home</title>
+<link th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<script th:src="@{/resources/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body>
+	<nav  th:replace="~{frag :: nav(title = '')}"></nav>
+	<main>
+		<div class="container mt-3 mb-3">			
+			<div class="mb-4">
+				<h2 th:if="${sports.isEmpty() and channels.isEmpty()}">No Sports or Channels found.</h2>	
+				<h2 th:unless="${sports.isEmpty()}" class="mb-3">Sports</h2>
+				
+				<div class="row row-cols-lg-4 row-cols-md-3 row-cols-2 g-4">
+					
+					<div class="col" th:each="sport : ${sports}">
+						<div class="card">
+							<img th:src="${sport.getImagePath()}" alt="sportImage"/>
+							<div class="card-body">
+								<h5 class="card-title mb-1" th:text="${sport.getName()}"></h5>
+								<a th:href="|/sports/${sport.getId()}|" class="btn btn-primary">View</a>
+							</div>
+						</div>
+					</div>
+				
+				</div>
+			</div>
+			
+			<hr th:unless="${channels.isEmpty()}" />
+			
+			<div class="mt-2">
+				<h2 th:unless="${channels.isEmpty()}" class="mb-3">Channels</h2>
+				<div class="row row-cols-lg-4 row-cols-md-3 row-cols-2 g-4">
+					<div class="col" th:each="channel : ${channels}">
+						<div class="card">
+							<img th:src="${channel.getSport().getImagePath()}" alt="sportImage"/>
+							<div class="card-body">
+								<h5 class="card-title mb-1" th:text="${channel.getName()}"></h5>
+								<p class="text-secondary mb-1" th:text="${channel.getDescription()}"></p>
+								<a th:href="|/channel/${channel.getId()}|" class="btn btn-primary">Watch</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</main>
+
+
+</body>
+</html>

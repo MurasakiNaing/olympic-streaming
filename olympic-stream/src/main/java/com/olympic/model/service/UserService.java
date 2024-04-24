@@ -30,7 +30,7 @@ public interface UserService {
 	
 	User register(RegisterForm from) throws UserAlreadyExistException;
 	
-	void addPreferredSports(PreferredSportForm form, String id);
+	void setPreferredSports(PreferredSportForm form, String id);
 	
 	List<Sport> getPreferredSportsByUser(String userId);
 	
@@ -43,4 +43,10 @@ public interface UserService {
 	void updatePhoneNumber(String id, String phoneNumber);
 	
 	boolean passwordMatch(String id, String currentPassword);
+	
+	void requestPasswordReset(String email);
+	
+	public List<UserDto> getPasswordResetUsers();
+	
+	public void removePasswordReset(String email);
 }

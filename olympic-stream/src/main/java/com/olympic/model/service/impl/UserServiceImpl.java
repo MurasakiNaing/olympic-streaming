@@ -3,6 +3,7 @@ package com.olympic.model.service.impl;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,16 +71,21 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void addPreferredSports(PreferredSportForm form, String id) {
+	@Transactional
+	public void setPreferredSports(PreferredSportForm form, String id) {
+		
 		var userOptional = userRepo.findById(id);
 		if(userOptional.isPresent()) {
+			var list = new ArrayList<Sport>();
 			var user = userOptional.get();
 			for (Integer i : form.getSports()) {
 				var sport = sportRepo.findById(i);
 				if(sport.isPresent()) {
-					user.getPreferredSports().add(sport.get());
+					list.add(sport.get());
 				}
 			}
+			user.setPreferredSports(list);
+			userRepo.save(user);
 		}
 	}
 
@@ -143,6 +149,23 @@ public class UserServiceImpl implements UserService {
 	public boolean passwordMatch(String id, String currentPassword) {
 		var user = userRepo.findById(id).get();
 		return encoder.matches(currentPassword, user.getPassword());
+	}
+
+	@Override
+	@Transactional
+	public void requestPasswordReset(String email) {
+		userRepo.requestPasswordReset(email);
+	}
+	
+	@Override
+	public List<UserDto> getPasswordResetUsers() {
+		return userRepo.selectPasswordResetUsers();
+	}
+
+	@Override
+	@Transactional
+	public void removePasswordReset(String email) {
+		userRepo.removePasswordReset(email);
 	}
 	
 }

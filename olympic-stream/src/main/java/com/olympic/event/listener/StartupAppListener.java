@@ -9,7 +9,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import com.olympic.model.entity.Admin;
-import com.olympic.model.entity.Sport;
 import com.olympic.model.entity.User;
 import com.olympic.model.repo.AdminRepo;
 import com.olympic.model.repo.SportRepo;

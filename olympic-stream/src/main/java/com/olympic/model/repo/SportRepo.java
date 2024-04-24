@@ -16,4 +16,6 @@ public interface SportRepo extends JpaRepository<Sport, Integer>{
 	
 	Optional<SportDto> findOneById(Integer id);
 	
+	List<SportDto> findByNameLikeIgnoreCase(String name);
+	
 }

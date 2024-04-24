@@ -45,4 +45,15 @@ public interface UserRepo extends JpaRepository<User, String>{
 	@Modifying
 	@Query("update User u set u.phone = :phone where u.id = :id")
 	void updatePhoneNumberById(@Param("id") String id, @Param("phone") String phoneNumber);
+	
+	@Modifying
+	@Query("update User u set u.passwordReset = true where u.email = :email")
+	void requestPasswordReset(@Param("email") String email);
+	
+	@Modifying
+	@Query("update User u set u.passwordReset = false where u.email = :email")
+	void removePasswordReset(@Param("email") String email);
+	
+	@Query("select u from User u where u.passwordReset = true")
+	List<UserDto> selectPasswordResetUsers();
 }

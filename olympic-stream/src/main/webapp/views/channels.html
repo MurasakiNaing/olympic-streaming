@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Channels</title>
+<link th:href="@{/resources/css/bootstrap.min.css}" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+<link th:href="@{/resources/css/icons.css}" rel="stylesheet">
+<script th:src="@{/resources/js/bootstrap.bundle.min.js}"></script>
+</head>
+<body>
+	
+	<nav  th:replace="~{frag :: nav(title = 'Channels')}"></nav>
+	
+	<main>		
+		<div class="container mb-3">
+			<h1>Channels</h1>
+			<h3 th:if="${channels.isEmpty()}">No Channels currently streaming.</h3>
+			
+			<div class="row row-cols-lg-4 row-cols-md-3 row-cols-2 g-4">
+				<div class="col" th:each="channel : ${channels}">
+					<div class="">
+						<div class="card">
+							<img th:src="${channel.getSport().getImagePath()}" alt="sportImage" class="card-img-top"/>
+							<div class="card-body">
+								<h5 class="card-title" th:text="${channel.getName()}"></h5>
+								<p class="text-secondary mb-1" th:text="${channel.getDescription()}"></p>
+								<a th:href="|/channel/${channel.getId()}|" class="btn btn-primary">Watch</a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+</body>
+</html>

@@ -20,15 +20,17 @@
 
 		<a class="navbar-brand d-none d-lg-block d-xl-block d-xxl-block" th:href="@{/}" 
 				style="padding-left: 12px; padding-right: 12px">FunOlympics</a>
-		<form th:action="@{/}">
+		<form th:action="@{/search}">
 			<div class="input-group d-lg-none w-auto ms-auto me-auto">
-					<input type="text" class="form-control" name="search"
+					<input type="text" class="form-control" name="keyword"
 						placeholder="Search Channel / Sport" aria-label="Search Channel / Sport">
 					<button class="btn btn-outline-secondary" type="submit">
 						<i class="bi bi-search"></i>
 					</button>
 				</div>
 		</form>
+		
+		<div class="d-inline d-lg-none" sec:authorize="hasRole('ADMIN')"></div>
 		
 		<div class="dropdown d-inline d-lg-none me-3" sec:authorize="hasRole('USER')">
                 <a class="dropdown-toggle active d-flex align-items-center"
@@ -79,16 +81,28 @@
 						</a>
 					</li>
 					
-					<li class="nav-item mt-1 mx-lg-2" th:classappend="${title} == 'Channels' ? 'active' : _">
-						<a th:href="@{/channels}" class="nav-link ">
+					<li class="nav-item mt-1 mx-lg-2">
+						<a th:href="@{/channels}" class="nav-link "  th:classappend="${title} == 'Channels' ? 'active' : _">
 							<i class="bi bi-tv"></i> Channels
 						</a>
 					</li>
 					
-					<li class="nav-item mt-1 mx-lg-2" sec:authorize="hasRole('ADMIN')" th:classappend="${title} == 'Users' ? 'active' : _">
-						<a th:href="@{/admin/users}" class="nav-link ">
+					<li class="nav-item mt-1 mx-lg-2" sec:authorize="hasRole('ADMIN')">
+						<a th:href="@{/admin/users}" class="nav-link"  th:classappend="${title} == 'Users' ? 'active' : _">
 							<i class="bi bi-people"></i> Users
 						</a>
+					</li>
+					
+					<li class="nav-item mt-1 mx-lg-2 d-none d-lg-inline">
+						<form th:action="@{/search}">
+							<div class="input-group w-auto ms-auto me-auto">
+									<input type="text" class="form-control" name="keyword"
+										placeholder="Search Sports / Channels" aria-label="Search Channel / Sport">
+									<button class="btn btn-outline-secondary" type="submit">
+										<i class="bi bi-search"></i>
+									</button>
+								</div>
+						</form>
 					</li>
 					
 					<li class="nav-item mt-1 mx-lg-2 d-lg-none" sec:authorize="hasRole('USER')">

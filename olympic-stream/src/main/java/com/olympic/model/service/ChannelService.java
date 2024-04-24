@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.olympic.model.dto.ChannelDto;
+import com.olympic.model.dto.TrendingChannelDto;
 import com.olympic.model.entity.Sport;
 import com.olympic.model.form.ChannelForm;
 
@@ -26,6 +27,9 @@ public interface ChannelService {
 	
 	List<ChannelDto> getLatestChannels();
 	
-	List<ChannelDto> getChannelsByPreferredSports(List<Sport> sports);
+	List<ChannelDto> getChannelsByPreferredSports(List<Sport> sports);	
 	
+	List<ChannelDto> findChannelByKeyword(String keyword);
+	
+	List<TrendingChannelDto> getTrendingChannels();
 }

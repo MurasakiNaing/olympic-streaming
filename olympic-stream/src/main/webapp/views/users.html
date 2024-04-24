@@ -14,6 +14,8 @@
 	<main>
 		<div class="container mt-3">
 			
+			<h2>Registered Users</h2>
+			
 			<table class="table table-stripped">
 				<thead>
 					<tr>
@@ -31,6 +33,31 @@
 				</tbody>
 			</table>
 			
+			<hr />
+			
+			<h2>Users requested for Password Reset</h2>
+			
+			<table class="table table-stripped">
+				<thead>
+					<tr>
+						<th>Username</th>
+						<th>Email</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="user : ${resetUsers}" class="align-middle">
+						<td th:text="${user.getName()}"></td>
+						<td th:text="${user.getEmail()}"></td>
+						<td class="text-center">
+							<form th:action="|/admin/user/reset/${user.getId()}|" method="post">
+								<input name="email" type="hidden" th:value="${user.getEmail()}" />
+								<button type="submit" class="btn btn-primary">Reset Password</button>
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
 	</main>
 

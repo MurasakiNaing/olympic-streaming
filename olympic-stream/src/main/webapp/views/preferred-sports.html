@@ -7,21 +7,24 @@
 </head>
 <body>
 
-	<div class="container">
+	<div class="container mt-3">
 		<div class="row">
 			<div class="col">
 				<div class="text-center">
 					<h3>Choose Your Preferred Sports</h3>
-					<h4 class="fst-italic text-secondary">Verification will be sent after this.</h4>
+					<h4 th:if="${signup}" class="fst-italic text-secondary">Verification will be sent after this.</h4>
 				</div>
 				
-				<form th:action="@{|/auth/${id}/preferred-sports|}" method="post" th:object="${sportsForm}">
+				<form th:action="@{${url}}" method="post" th:object="${sportsForm}">
 					<div class="row">
-						<div class="col-3" th:each="sport : ${sportsList}">
-							<div class="form-group">
-								<input type="checkbox" th:field="*{sports}" th:text="${sport.getName()}" th:value="${sport.getId()}" />
-							</div>
+						<div class="col-3" th:each="sport, iterStat : ${sportsList}">
+						    <div class="form-group">
+						        <input type="checkbox" th:id="'sport_' + ${iterStat.index}" th:field="*{sports}" th:value="${sport.getId()}" />
+						        <label th:for="'sport_' + ${iterStat.index}" th:text="${sport.getName()}">
+						        </label>
+						    </div>
 						</div>
+												
 					</div>
 					
 					<br />

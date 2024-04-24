@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.olympic.model.dto.ChannelDto;
+import com.olympic.model.dto.TrendingChannelDto;
 import com.olympic.model.entity.Channel;
 import com.olympic.model.entity.Sport;
 import com.olympic.model.form.ChannelForm;
@@ -67,6 +68,16 @@ public class ChannelServiceImpl implements ChannelService {
 	@Override
 	public List<ChannelDto> getChannelsByPreferredSports(List<Sport> sports) {
 		return channelRepo.findChannelByPreferredSport(sports);
+	}
+
+	@Override
+	public List<ChannelDto> findChannelByKeyword(String keyword) {
+		return channelRepo.findByNameLikeIgnoreCase(keyword.concat("%"));
+	}
+
+	@Override
+	public List<TrendingChannelDto> getTrendingChannels() {
+		return channelRepo.findTrendingChannels();
 	}
 
 }

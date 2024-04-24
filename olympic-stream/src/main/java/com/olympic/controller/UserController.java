@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -19,7 +20,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.olympic.model.dto.SportDto;
 import com.olympic.model.dto.UserDto;
+import com.olympic.model.entity.Sport;
 import com.olympic.model.form.CommentForm;
+import com.olympic.model.form.PreferredSportForm;
 import com.olympic.model.service.ChannelService;
 import com.olympic.model.service.CommentService;
 import com.olympic.model.service.SportService;
@@ -63,6 +66,9 @@ public class UserController {
 			
 		}
 		map.put("newChannels", channelService.getLatestChannels());
+		map.put("trendingChannels", channelService.getTrendingChannels());
+		System.out.println(channelService.getTrendingChannels().size());
+		
 		return "home";
 	}
 
@@ -74,7 +80,8 @@ public class UserController {
 	}
 	
 	@GetMapping("/channels")
-	String channels() {
+	String channels(ModelMap map) {
+		map.put("channels", channelService.getAllChannels());
 		return "channels";
 	}
 
@@ -114,9 +121,17 @@ public class UserController {
 		map.put("comments", commentService.getCommentByChannelId(channelId));
 		map.put("form", new CommentForm());
 		map.put("channelId", channelId);
-		System.out.println(channelId);
 
 		return "comments";
+	}
+	
+	@GetMapping("/search")
+	String search(@RequestParam("keyword") String keyword, ModelMap map) {
+		
+		map.put("sports", sportService.findByKeyword(keyword));
+		map.put("channels", channelService.findChannelByKeyword(keyword));
+		
+		return "search-results";
 	}
 
 	@PostMapping("/channel/{id}/comments")
@@ -182,6 +197,27 @@ public class UserController {
 		var user = userService.findUserById(userId).get();
 		session.setAttribute("user", user);
 		return "redirect:/user/" + userId;
+	}
+	
+	@GetMapping("/user/{id}/preferred-sports")
+	String editPreferredSportsPage(@PathVariable("id") String userId, ModelMap map) {
+		map.put("sportsList", sportService.findAll());
+		List<Integer> preferredSports = userService.getPreferredSportsByUser(userId).stream()
+																			.map(Sport::getId).collect(Collectors.toList());
+		var form = new PreferredSportForm();
+		form.setSports(preferredSports);
+		map.put("sportsForm", form);
+		map.put("url", "/user/%s/preferred-sports".formatted(userId));
+		
+		return "preferred-sports";
+	}
+	
+	@PostMapping("/user/{id}/preferred-sports")
+	String editPreferredSports(@ModelAttribute("sportsForm") PreferredSportForm form ,@PathVariable("id") String userId) {
+		
+		userService.setPreferredSports(form, userId);
+		
+		return "redirect:/user/%s".formatted(userId);
 	}
 
 	private Map<String, List<SportDto>> groupedSports() {

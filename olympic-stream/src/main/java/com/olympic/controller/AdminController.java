@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.olympic.model.form.ChannelForm;
 import com.olympic.model.service.ChannelService;
+import com.olympic.model.service.MailService;
 import com.olympic.model.service.SportService;
 import com.olympic.model.service.UserService;
 import com.olympic.model.service.ViewService;
@@ -40,6 +41,12 @@ public class AdminController {
 	
 	@Autowired
 	private ViewTimeService viewTimeService;
+	
+	@Autowired
+	private MailService mailService;
+	
+	private static final String DEFAULT_PASSWORD = "Xyz123!@#";
+	
 
 	@GetMapping("/sport-channels/{id}")
 	String channelEdit(@PathVariable("id") Integer sportId, ModelMap map) {
@@ -67,6 +74,7 @@ public class AdminController {
 	@GetMapping("/users")
 	public String getUsers(ModelMap map) {
 		map.put("users", userService.findAllUser());
+		map.put("resetUsers", userService.getPasswordResetUsers());
 		return "users";
 	}
 	
@@ -93,5 +101,11 @@ public class AdminController {
 		return "redirect:/";
 	}
 	
-	
+	@PostMapping("/user/reset/{id}")
+	public String resetPassword(@PathVariable String id, @RequestParam("email") String email) {
+		userService.updatePassword(id, DEFAULT_PASSWORD);
+		userService.removePasswordReset(email);
+		mailService.sendPasswordResetMail(email, DEFAULT_PASSWORD);
+		return "redirect:/admin/users";
+	}
 }

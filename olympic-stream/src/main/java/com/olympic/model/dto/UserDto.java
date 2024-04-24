@@ -13,6 +13,7 @@ public interface UserDto {
 	String getImageName();
 	String getName();
 	String getPhone();
+	String getPasswordReset();
 	
 	default String getImagePath() {
 		return "/resources/images/profile/" + getImageName();

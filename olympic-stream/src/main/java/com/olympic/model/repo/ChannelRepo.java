@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.olympic.model.dto.ChannelDto;
+import com.olympic.model.dto.TrendingChannelDto;
 import com.olympic.model.entity.Channel;
 import com.olympic.model.entity.Sport;
 
@@ -16,14 +17,19 @@ public interface ChannelRepo extends JpaRepository<Channel, Integer>{
 	@Query("select c from Channel c where c.sport.id = :id")
 	List<ChannelDto> getChannelBySportId(@Param("id") Integer id);
 	
-	@Query("select c from Channel c order by c.id desc limit 3")
+	@Query("select c from Channel c order by c.id desc limit 4")
 	List<ChannelDto> getTop3OrderByIdDesc();
 	
 	@Query("select c from Channel c")
 	List<ChannelDto> getAllChannel();
 	
-	@Query("select c from Channel c where c.sport in :sports order by c.id desc limit 3")
+	@Query("select c from Channel c where c.sport in :sports order by c.id desc limit 4")
 	List<ChannelDto> findChannelByPreferredSport(List<Sport> sports);
 	
 	Optional<ChannelDto> findChannelById(Integer id);
+	
+	List<ChannelDto> findByNameLikeIgnoreCase(String name);
+	
+	@Query("select c from Channel c join c.views v group by c order by count(v) desc limit 4")
+	List<TrendingChannelDto> findTrendingChannels();
 }

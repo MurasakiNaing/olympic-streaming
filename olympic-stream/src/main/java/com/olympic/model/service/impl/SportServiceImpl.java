@@ -27,7 +27,11 @@ public class SportServiceImpl implements SportService{
 	public Optional<SportDto> findOneById(Integer id) {
 		return repo.findOneById(id);
 	}
-	
+
+	@Override
+	public List<SportDto> findByKeyword(String keyword) {
+		return repo.findByNameLikeIgnoreCase(keyword.concat("%"));
+	}
 	
 	
 }

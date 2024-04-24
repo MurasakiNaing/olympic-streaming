@@ -14,4 +14,6 @@ public interface SportService {
 	
 	Optional<SportDto> findOneById(Integer id);
 	
+	List<SportDto> findByKeyword(String keyword);
+	
 }

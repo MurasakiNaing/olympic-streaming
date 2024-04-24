@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
@@ -38,7 +38,7 @@
                 </div>
             </div>
             
-            <div class="me-0 my-2 fixed-bottom">
+            <div class="me-0 my-2 fixed-bottom" sec:authorize="hasRole('USER')">
                 <form th:action="|/channel/${channelId}/comments|" class="needs-validation" th:object="${form}" method="post" novalidate>
                     <div class="row">
                         <div class="col-10">

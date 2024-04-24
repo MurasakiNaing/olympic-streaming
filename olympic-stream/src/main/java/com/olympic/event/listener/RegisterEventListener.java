@@ -29,7 +29,7 @@ public class RegisterEventListener implements ApplicationListener<RegisterEvent>
 	private void sendVerification(User user) {
 		String code = UUID.randomUUID().toString();
 		verificationService.addVerification(user, code);
-		mailService.sendMail(user.getEmail(), code);
+		mailService.sendVerificationMail(user.getEmail(), code);
 	}
 	
 	

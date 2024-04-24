@@ -50,6 +50,7 @@ public class User implements UserDetails, Serializable {
 	private String imageName;
 	private String name;
 	private String phone;
+	private boolean passwordReset;
 
 	public User() {
 		this.role = "USER";

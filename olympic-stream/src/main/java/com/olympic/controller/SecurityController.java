@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.olympic.event.RegisterEvent;
 import com.olympic.exception.UserAlreadyExistException;
@@ -69,15 +70,17 @@ public class SecurityController {
 		
 		map.put("sportsList", sportService.findAll());
 		map.put("sportsForm", new PreferredSportForm());
-		map.put("id", id);
+		map.put("url", "/auth/%s/preferred-sports".formatted(id));
+		map.put("signup", "true");
+		//map.put("id", id);
 		
 		return "preferred-sports";
 	}
 	
 	@PostMapping("/{id}/preferred-sports")
-	String addPreferredSports( @ModelAttribute PreferredSportForm form , @PathVariable String id) {
+	String addPreferredSports(@ModelAttribute("sportsForm") PreferredSportForm form , @PathVariable String id) {
 		
-		userService.addPreferredSports(form, id);
+		userService.setPreferredSports(form, id);
 		var user = userService.findById(id).get();
 		eventPublisher.publishEvent(new RegisterEvent(user));
 		
@@ -94,5 +97,24 @@ public class SecurityController {
 		}
 
 		return "verification-success";
+	}
+	
+	@GetMapping("/forgot-password")
+	String forgotPassword() {
+		return "forgot-password";
+	}
+	
+	@GetMapping("/request-success")
+	String resetRequestSuccess() {
+		return "request-success";
+	}
+	
+	@PostMapping("/forgot-password")
+	String reqPasswordReset(@RequestParam("email") String email) {
+		if(userService.findUserByEmail(email).isEmpty()) {
+			return "redirect:/auth/forgot-password?error=true";
+		}
+		userService.requestPasswordReset(email);
+		return "redirect:/auth/request-success";
 	}
 }
